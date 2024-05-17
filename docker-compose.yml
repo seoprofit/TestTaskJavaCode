@@ -1,0 +1,44 @@
+version: "3"
+
+services:
+  api:
+    image: openjdk:17-oracle
+    container_name: api_container
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    networks:
+    - apiNetwork
+    volumes:
+    - data_api:/home/
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/wallet
+      - SPRING_DATASOURCE_USERNAME=test_task_login
+      - SPRING_DATASOURCE_PASSWORD=test_task_pass
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+
+  db:
+      image: postgres:13.15-bullseye
+      container_name: db_container
+      ports:
+        - 5432:5432
+      networks:
+      - apiNetwork
+      volumes:
+        - data_db:/usr/local/pgsql/data
+      environment:
+        - POSTGRES_USER=test_task_login
+        - POSTGRES_PASSWORD=test_task_pass
+        - POSTGRES_DB=wallet
+
+
+
+networks:
+  apiNetwork:
+    driver: bridge
+
+volumes:
+    data_api:
+    data_db:
