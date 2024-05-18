@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Component
 public class WalletModel {
-    private long UUIDl;
+    private long valetId;
     private OperationType operationType;
     private BigDecimal amount;
 
