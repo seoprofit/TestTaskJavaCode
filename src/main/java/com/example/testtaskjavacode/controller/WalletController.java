@@ -1,66 +1,48 @@
 package com.example.testtaskjavacode.controller;
 
-import com.example.testtaskjavacode.model.Wallet;
-import com.example.testtaskjavacode.repository.WalletRepository;
+import com.example.testtaskjavacode.DAO.Wallet;
+import com.example.testtaskjavacode.DTO.WalletDTO;
+import com.example.testtaskjavacode.exception.MyEx;
+import com.example.testtaskjavacode.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.FileNotFoundException;
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1")
 public class WalletController {
 
     @Autowired
-public WalletController (WalletRepository walletRepository)
-{
-    this.walletRepository=walletRepository;
-}
+    public WalletController(WalletService walletService) {
+        this.walletService = walletService;
+    }
 
-    private WalletRepository walletRepository;
+    private WalletService walletService;
 
     @PostMapping("/wallet")
-    Wallet newWallet (@RequestBody Wallet newWallet) {
-    return walletRepository.save(newWallet);
+    Wallet newWallet(@RequestBody Wallet newWallet) {
+        return walletService.save(newWallet);
 
     }
 
 
-    @PutMapping ("/wallets/{valetId}")
-    Wallet newWallet (@RequestBody Wallet newWallet, @PathVariable Long valetId) {
-//        return walletRepository.findById(valetId).map(wallet ->
-//        {wallet.setAmount(newWallet.getAmount()); return walletRepository.save(wallet);
-// });
-Wallet wallet = walletRepository.findById(valetId).orElse(null);
-
-if (wallet == null)
-        { new FileNotFoundException("gg"); }
-else {
-            if (wallet.getAmount().intValue() < newWallet.getAmount().intValue())
-                newWallet.setAmount(new BigDecimal(100000000));
-
-        }
-return walletRepository.save(newWallet);
-
-
-
-
+    @PutMapping("/wallets/{valetId}")
+    Wallet newWallet(@RequestBody WalletDTO newWalletDTO, @PathVariable UUID valetId) throws MyEx, MyEx {
+        return walletService.updateExistWallet(newWalletDTO, valetId);
 
     }
 
 
     @GetMapping("/wallets")
-    List<Wallet> getAllWallets () {
-        return walletRepository.findAll();
+    List<Wallet> getAllWallets() {
+        return walletService.findAll();
     }
 
-    @GetMapping ("/wallet/{valetId}")
-    Optional<Wallet> wallet (@PathVariable Long valetId)
-    {
-        return walletRepository.findById(valetId);
+    @GetMapping("/wallet/{valetId}")
+    Wallet wallet(@PathVariable UUID valetId) {
+        return walletService.findByuuid(valetId).converterToDAO();
 
     }
 
