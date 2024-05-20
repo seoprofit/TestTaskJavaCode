@@ -36,11 +36,11 @@ public class WalletRestControllerV1 {
             if (walletDTO.get().converterToDTO().getUuid().compareTo(newWallet.getUuid()) == 0)
                 throw new AccountAlreadyExistsEx("Account with UUID " + newWallet.getUuid() + " already exists ");
         }
-        return new ResponseEntity<>(newWallet.converterToDAO(), HttpStatus.OK);
+        return new ResponseEntity<>(newWallet.converterToDAO(), HttpStatus.CREATED);
     }
 
 
-    @GetMapping("/wallet/{walletId}")
+    @GetMapping("/wallets/{walletId}")
     ResponseEntity<Wallet> wallet(@PathVariable UUID walletId) throws AccountNotFoundEx {
         WalletDTO walletDTO = walletServiceImpl.findByuuid(walletId).orElseThrow(() -> new AccountNotFoundEx("Account with UUID: " + walletId + " was not found")).converterToDTO();
         return new ResponseEntity<>(walletDTO.converterToDAO(), HttpStatus.OK);

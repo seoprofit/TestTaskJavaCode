@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/wallet
+    username: test_task_login
+    driver-class-name: org.postgresql.Driver
+    password: test_task_pass
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml

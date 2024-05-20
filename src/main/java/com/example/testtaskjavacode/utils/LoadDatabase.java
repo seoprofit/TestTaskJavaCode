@@ -14,14 +14,17 @@ import java.util.UUID;
 @Configuration
 public class LoadDatabase {
 
+    UUID uuid_for_tests = UUID.fromString("c302ea4b-5c88-413b-aa26-813baf374460");
     @Bean
     CommandLineRunner initDB(WalletRepository walletRepository) {
         return args -> {
-            walletRepository.save(new WalletDTO(UUID.randomUUID(), WalletDTO.OperationType.DEPOSIT, new BigDecimal(95500)).converterToDAO());
-            walletRepository.save(new WalletDTO(UUID.randomUUID(), WalletDTO.OperationType.DEPOSIT, new BigDecimal(5500)).converterToDAO());
-            walletRepository.save(new WalletDTO(UUID.randomUUID(), WalletDTO.OperationType.DEPOSIT, new BigDecimal(15000)).converterToDAO());
-            walletRepository.save(new WalletDTO(UUID.randomUUID(), WalletDTO.OperationType.WITHDRAW, new BigDecimal(8000)).converterToDAO());
-            walletRepository.save(new WalletDTO(UUID.randomUUID(), WalletDTO.OperationType.DEPOSIT, new BigDecimal(100)).converterToDAO());
+            walletRepository.save(new Wallet(uuid_for_tests, new BigDecimal(50000)));
+            walletRepository.save(new Wallet(UUID.randomUUID(), new BigDecimal(1500)));
+            walletRepository.save(new Wallet(UUID.randomUUID(), new BigDecimal(78545)));
+            walletRepository.save(new Wallet(UUID.randomUUID(), new BigDecimal(1005)));
+            walletRepository.save(new Wallet(UUID.randomUUID(), new BigDecimal(890)));
+            walletRepository.save(new Wallet(UUID.randomUUID(), new BigDecimal(10098)));
+
         };
     }
 }

@@ -17,7 +17,7 @@ import java.util.UUID;
 @Table(name = "Account")
 public class Wallet {
     @Id
-    @Column(name = "ValetId")
+    @Column(name = "WalletId")
     private UUID uuid;
     @Column(name = "Amount")
     private BigDecimal amount;
