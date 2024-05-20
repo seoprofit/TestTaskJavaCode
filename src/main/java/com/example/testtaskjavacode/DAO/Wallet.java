@@ -22,8 +22,7 @@ public class Wallet {
     @Column(name = "Amount")
     private BigDecimal amount;
 
-    public WalletDTO converterToDTO ()
-    {
+    public WalletDTO converterToDTO() {
         WalletDTO walletDTO = new WalletDTO();
         walletDTO.setUuid(uuid);
         walletDTO.setAmount(amount);

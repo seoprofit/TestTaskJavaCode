@@ -19,13 +19,12 @@ public class WalletDTO {
     private UUID uuid;
     private OperationType operationType;
     private BigDecimal amount;
-    public enum OperationType
-    {
+
+    public enum OperationType {
         DEPOSIT, WITHDRAW
     }
 
-    public Wallet converterToDAO()
-    {
+    public Wallet converterToDAO() {
         Wallet wallet = new Wallet();
         wallet.setUuid(uuid);
         wallet.setAmount(amount);

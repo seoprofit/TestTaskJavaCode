@@ -34,8 +34,6 @@ services:
         - POSTGRES_PASSWORD=test_task_pass
         - POSTGRES_DB=wallet
 
-
-
 networks:
   apiNetwork:
     driver: bridge

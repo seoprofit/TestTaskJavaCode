@@ -7,10 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TestTaskJavaCodeApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TestTaskJavaCodeApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(TestTaskJavaCodeApplication.class, args);
+    }
 
 
 }
