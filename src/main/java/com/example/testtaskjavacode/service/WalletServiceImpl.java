@@ -6,12 +6,14 @@ import com.example.testtaskjavacode.exception.AccountNotFoundEx;
 import com.example.testtaskjavacode.exception.BadQueryEx;
 import com.example.testtaskjavacode.exception.BalanceNotEnoughEx;
 import com.example.testtaskjavacode.repository.WalletRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class WalletServiceImpl implements WalletService {
@@ -38,10 +40,11 @@ public class WalletServiceImpl implements WalletService {
         return walletRepository.save(newWallet);
     }
 
+    @Transactional
     public Wallet updateExistWallet(WalletDTO newWalletDTO) throws AccountNotFoundEx, BalanceNotEnoughEx, BadQueryEx {
         if (newWalletDTO == null) throw new BadQueryEx("Some troubles with your request body");
         else {
-            synchronized (this) {
+
                 WalletDTO oldWalletDTO = walletRepository.findByuuid(newWalletDTO.getUuid()).orElseThrow(() -> new AccountNotFoundEx("Account with UUID: " + newWalletDTO.getUuid() + " was not found")).converterToDTO();
                 if (newWalletDTO.getOperationType() == WalletDTO.OperationType.DEPOSIT) {
                     oldWalletDTO.setAmount(oldWalletDTO.converterToDAO().getAmount().add(newWalletDTO.getAmount()));
@@ -53,7 +56,7 @@ public class WalletServiceImpl implements WalletService {
                         throw new BalanceNotEnoughEx("Account with UUID: " + newWalletDTO.getUuid() + " has not enough balance");
                 }
                 return walletRepository.save(oldWalletDTO.converterToDAO());
-            }
+
         }
     }
 }
